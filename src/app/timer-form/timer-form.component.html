@@ -43,6 +43,8 @@
     </label>
   </div>
 
+  <span>{{ this.period }}</span>
+
   <div class="mb-3">
     <div class="form-check">
       <input type="radio" 
@@ -79,11 +81,11 @@
   </div>
 
   <div *ngIf="timerForm.value.repeatType === 'cdRepeat'" class="mb-3">
-    Countdown-type
+    <app-countdown-type-form (timerData)="setIntervalPeriod($event)"></app-countdown-type-form>
   </div>
 
   <div *ngIf="timerForm.value.repeatType === 'scheduleRepeat'" class="mb-3">
-    Schedule-type
+    <app-schedule-type-form (timerData)="setSchedulePeriod($event)"></app-schedule-type-form>
   </div>
 
   <button type="submit" class="btn bg-brand-primary text-brand-accent">
