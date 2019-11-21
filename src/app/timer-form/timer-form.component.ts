@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { TimersService } from '../timers.service';
-//import { timer, Timer } from '../../types/timer';
 
 @Component({
   selector: 'app-timer-form',
