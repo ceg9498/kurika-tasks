@@ -48,7 +48,7 @@ export class Timer {
     description?:string,
     category?:string
   ){
-    // generate id!
+    this.id = generate();
     this.title = title;
     this.required = required;
     this.category = category;
@@ -196,4 +196,17 @@ export class Timer {
   
     return distance;
   }
+}
+
+// ID generator
+function partial() {
+  return Math.floor((1 + Math.random()) * 0x10000).toString(36);
+}
+
+function generate() {
+  let id = '';
+  for(let i=0;i<6;i++){
+    id += this.partial();
+  }
+  return id;
 }
