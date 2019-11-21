@@ -20,16 +20,12 @@ export class CountdownTypeFormComponent implements OnInit {
       unit: new FormControl('hours')
     });
     this.units = ["days","hours","minutes"];
-    this.emitAmount();
-    this.emitUnit();
+    this.emit("amount");
+    this.emit("unit");
   }
 
-  emitAmount(){
-    this.timerData.emit({property:"amount", value:this.countdown.value.amount});
-  }
-
-  emitUnit(){
-    this.timerData.emit({property:"unit", value:this.countdown.value.unit});
+  emit(property:string){
+    this.timerData.emit({property:property, value:this.countdown.value[property]});
   }
 
 }

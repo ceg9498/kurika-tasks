@@ -3,14 +3,14 @@
     <label for="timer-amount" class="input-group-text input-group-prepend">
       Value
     </label>
-    <input type="number" id="timer-amount" formControlName="amount" class="form-control" (change)="emitAmount()">
+    <input type="number" id="timer-amount" formControlName="amount" class="form-control" (change)="emit('amount')">
   </div>
 
   <div class="input-group mb-3">
     <label for="timer-unit" class="input-group-text input-group-prepend">
       Units
     </label>
-    <select id="timer-unit" formControlName="unit" class="form-control" (change)="emitUnit()">
+    <select id="timer-unit" formControlName="unit" class="form-control" (change)="emit('unit')">
         <option *ngFor="let unit of units" [ngValue]="unit">
           {{ unit }}
         </option>
