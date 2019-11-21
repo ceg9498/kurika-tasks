@@ -216,7 +216,7 @@ function partial() {
 function generate() {
   let id = '';
   for(let i=0;i<6;i++){
-    id += this.partial();
+    id += partial();
   }
   return id;
 }
