@@ -1,3 +1,21 @@
 <div class="content">
-  <p>settings works!</p>
+  <div class="form-check" *ngFor="let setting of settings">
+    <input type="checkbox" 
+      class="form-check-input" 
+      value="" 
+      [id]="setting.name" 
+      [formControl]="setting.control"
+      (change)="updateSetting(setting.name)">
+    <label class="form-check-label" [for]="setting.name">
+      {{ setting.text }}
+    </label>
+  </div>
+
+  <br/>
+
+  <button type="button" 
+    class="btn bg-brand-primary text-brand-accent"
+    (click)="deleteAllData()">
+    Delete My Data
+  </button>
 </div>
