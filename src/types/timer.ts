@@ -1,4 +1,4 @@
-type timer = {
+export type timer = {
   id: number|string,
   title: string,
   resetTime: Date,
