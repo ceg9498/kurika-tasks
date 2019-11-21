@@ -78,6 +78,16 @@ export class Timer {
       // generate a countdown
     }
   }
+  
+  checkReset(){
+    let now = new Date();
+    // if `now` is MORE than `resetTime`, reset
+    if(now.valueOf() > this.resetTime.valueOf()){
+      this.isCompleted = false;
+      this.resetTime = null;
+      this.countdown = null;
+    }
+  }
 
   private setReset(){
     let reset = this.period.split('-');
