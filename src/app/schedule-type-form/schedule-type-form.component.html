@@ -1,1 +1,51 @@
-<p>schedule-type-form works!</p>
+<form [formGroup]="schedule" class="form-group">
+  <div class="form-check mb-3">
+    <input type="checkbox" 
+      id="timer-UTC"
+      class="form-check-input"
+      formControlName="useUTC"
+      aria-describedby="timer-UTC-help">
+    <label for="timer-UTC" class="form-check-label">
+      Use global time
+    </label>
+    <br/>
+    <small id="timer-UTC-help" class="text-muted">
+      Global time ignores changes due to Daylight Savings Time
+    </small>
+  </div>
+
+  <div class="input-group mb-3">
+    <label for="timer-hour" class="sr-only">
+      Hours
+    </label>
+    <input type="number" 
+      id="timer-hour" 
+      formControlName="hour" 
+      placeholder="hours"
+      class="form-control" 
+      (change)="emit('hour')">
+
+    <label class="sr-only" for="AM-or-PM">
+      AM or PM
+    </label>
+    <select
+      id="AM-or-PM"
+      formControlName="ampm" 
+      class="form-control" 
+      (change)="emit('ampm')">
+      <option value="am">AM / 24h</option>
+      <option value="pm">PM</option>
+    </select>
+
+    <input type="number" 
+      id="timer-minute" 
+      formControlName="minute" 
+      placeholder="minutes"
+      class="form-control" 
+      (change)="emit('minute')">
+    <label for="timer-minute" class="sr-only">
+      Minutes
+    </label>
+  </div>
+
+</form>
