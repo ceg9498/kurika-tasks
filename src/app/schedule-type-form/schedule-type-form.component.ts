@@ -97,5 +97,6 @@ export class ScheduleTypeFormComponent implements OnInit {
 
       this.daysToggleLabel = SELECT_ALL;
     }
+    this.emit("dayOfWeek");
   }
 }
