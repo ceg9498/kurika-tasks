@@ -6,6 +6,7 @@ export type schedule = {
   hour:number|string,
   minute:number|string,
   dayOfWeek:number|string,
+  ampm:string,
 }
 
 export class Schedule {
@@ -13,6 +14,7 @@ export class Schedule {
   hour:number|string;
   minute:number|string;
   dayOfWeek:number|string;
+  ampm:string;
 
   constructor(useUTC?:boolean, hour?:number|string, minute?:number|string, dayOfWeek?:number|string){
     this.useUTC = useUTC || undefined;

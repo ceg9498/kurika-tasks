@@ -4,6 +4,7 @@
       id="timer-UTC"
       class="form-check-input"
       formControlName="useUTC"
+      (change)="emit('useUTC')"
       aria-describedby="timer-UTC-help">
     <label for="timer-UTC" class="form-check-label">
       Use global time
@@ -48,4 +49,82 @@
     </label>
   </div>
 
+  <button type="button" 
+    class="btn bg-brand-primary text-brand-accent mb-3"
+    (click)="toggleDays()">
+    {{ daysToggleLabel }}
+  </button>
+
+  <div formGroupName="dayOfWeek"
+    (change)="emit('dayOfWeek')">
+    <div class="form-check mb-3">
+      <input type="checkbox" 
+        id="timer-monday" 
+        class="form-check-input"
+        formControlName="monday">
+      <label for="timer-monday" class="form-check-label">
+        Monday
+      </label>
+    </div>
+
+    <div class="form-check mb-3">
+      <input type="checkbox" 
+        id="timer-tuesday" 
+        class="form-check-input"
+        formControlName="tuesday">
+      <label for="timer-tuesday" class="form-check-label">
+        Tuesday
+      </label>
+    </div>
+    
+    <div class="form-check mb-3">
+      <input type="checkbox" 
+        id="timer-wednesday" 
+        class="form-check-input"
+        formControlName="wednesday">
+      <label for="timer-wednesday" class="form-check-label">
+        Wednesday
+      </label>
+    </div>
+  
+    <div class="form-check mb-3">
+      <input type="checkbox" 
+        id="timer-thursday" 
+        class="form-check-input"
+        formControlName="thursday">
+      <label for="timer-thursday" class="form-check-label">
+        Thursday
+      </label>
+    </div>
+  
+    <div class="form-check mb-3">
+      <input type="checkbox" 
+        id="timer-friday" 
+        class="form-check-input"
+        formControlName="friday">
+      <label for="timer-friday" class="form-check-label">
+        Friday
+      </label>
+    </div>
+
+    <div class="form-check mb-3">
+      <input type="checkbox" 
+        id="timer-saturday" 
+        class="form-check-input"
+        formControlName="saturday">
+      <label for="timer-saturday" class="form-check-label">
+        Saturday
+      </label>
+    </div>
+
+    <div class="form-check mb-3">
+      <input type="checkbox" 
+        id="timer-sunday" 
+        class="form-check-input"
+        formControlName="sunday">
+      <label for="timer-sunday" class="form-check-label">
+        Sunday
+      </label>
+    </div>
+  </div>
 </form>

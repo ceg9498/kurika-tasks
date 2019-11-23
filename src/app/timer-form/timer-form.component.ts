@@ -47,9 +47,21 @@ export class TimerFormComponent implements OnInit {
         this.period = 'r-';
         this.period += this.scheduleValues.useUTC ? 'g' : 'l';
         this.period += '-' + "yyyy-mm-dd-"
-        this.period += this.scheduleValues.hour + '-' + this.scheduleValues.minute + '-';
-        // add days of week here! adding always Tuesday for now.
-        this.period += '2';
+        let hours:number;
+        if(typeof this.scheduleValues.hour === "string"){
+          hours = parseInt(this.scheduleValues.hour);
+        } else {
+          hours = this.scheduleValues.hour;
+        }
+        if(this.scheduleValues.ampm === "pm"){
+          hours += 12;
+        }
+        this.period += hours + '-';
+        if(this.scheduleValues.minute === ''){
+          this.scheduleValues.minute = 0;
+        }
+        this.period += this.scheduleValues.minute + '-';
+        this.period += this.scheduleValues.dayOfWeek;
         break;
     }
   }
@@ -58,8 +70,8 @@ export class TimerFormComponent implements OnInit {
     this.countdownValues[event.property] = event.value;
   }
 
-  setSchedulePeriod(property:string, value:string|number|boolean){
-    this.scheduleValues[property] = value;
+  setSchedulePeriod(event:{property:string, value:string|number|boolean}){
+    this.scheduleValues[event.property] = event.value;
   }
 
   add(){
