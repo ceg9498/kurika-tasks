@@ -1,3 +1,37 @@
-<div class="content">
-  <p>timers works!</p>
+<div class="content card-columns">
+  <div class="card" style="width: 300px;" *ngFor="let category of timers">
+    <div class="card-header">
+      {{ category.category }}
+    </div>
+    <div class="list-group list-group-flush">
+      <a class="list-group-item list-group-item-action" 
+        *ngFor="let timer of category.timers"
+        (click)="toggleCompleted(timer.id)">
+        <h5 class="mb-1">
+          <span *ngIf="timer.isCompleted">✔</span>
+          <span *ngIf="!timer.isCompleted && timer.required">⭐</span>
+          {{ timer.title }}
+        </h5>
+        <small class="text-muted mb-1">
+          <span *ngIf="timer.countdown">
+            Resets in {{ timer.countdown }}
+          </span>
+          <span *ngIf="!timer.countdown && timer.completed.length > 0">
+            Last completed {{ timer.completed[timer.completed.length-1].toDateString() }}
+          </span>
+          <span *ngIf="!timer.countdown && timer.completed.length === 0">
+            <span *ngIf="timer.period === 'nr'">Does not repeat</span>
+            <span *ngIf="timer.period !== 'nr'">{{ timer.period }}</span>
+          </span>
+        </small>
+        <p *ngIf="timer.description">{{ timer.description }}</p>
+        <div *ngIf="!timer.description"><br/></div>
+        <button type="button" 
+          class="btn btn-outline-danger" 
+          (click)="deleteTimer(timer.id)">
+          Delete
+        </button>
+      </a>
+    </div>
+  </div>
 </div>
