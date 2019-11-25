@@ -9,7 +9,7 @@ import { timer, Timer } from '../../types/timer';
   styleUrls: ['./timers.component.scss']
 })
 export class TimersComponent implements OnInit {
-  timers:[{category:string, timers:timer[]}]
+  timers:[{category:string, timers:Timer[]}]
 
   constructor(
     private _timers:TimersService,

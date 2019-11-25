@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
 import { IndexedDbService } from './indexed-db.service';
 import { timer, Timer } from '../types/timer';
@@ -6,12 +6,17 @@ import { timer, Timer } from '../types/timer';
 @Injectable({
   providedIn: 'root'
 })
-export class TimersService {
-  categories:[{category:string, timers:timer[]}];
+export class TimersService implements OnDestroy {
+  categories:[{category:string, timers:Timer[]}];
+  interval:any;
 
   constructor(
     private _idb:IndexedDbService,
   ) { }
+
+  ngOnDestroy(){
+    clearInterval(this.interval);
+  }
 
   init(){
     this.categories = [{
@@ -30,9 +35,22 @@ export class TimersService {
         this.cleanCategories();
       }
     )
+    this.interval = setInterval(()=>this.tick(), 10000);
+  }
+
+  tick(){
+    console.log("tick")
+    this.categories.forEach((item)=>{
+      item.timers.forEach((timer)=>{
+        if(timer.isCompleted){
+          timer.tickCountdown(10000);
+        }
+      });
+    });
   }
 
   setTimer(timer:timer){
+    let n = new Timer(timer);
     if(timer.category === undefined || timer.category === ''){
       timer.category = "No Category";
     }
@@ -40,10 +58,10 @@ export class TimersService {
     if(i === -1){
       this.categories.push({
         category: timer.category,
-        timers: [timer]
+        timers: [n]
       });
     } else {
-      this.categories[i].timers.push(timer);
+      this.categories[i].timers.push(n);
     }
   }
 
@@ -55,8 +73,8 @@ export class TimersService {
     })
   }
 
-  addTimer(title:string, required:boolean, isCompleted:boolean, period:string, description?:string, category?:string) {
-    let nTimer = new Timer(title, required, isCompleted, period, description, category);
+  addTimer(n:timer) {
+    let nTimer = new Timer(n);
     console.log(nTimer);
     this.setTimer(nTimer);
     this._idb.addOrUpdateOne("kurika", "timers", nTimer).subscribe(
@@ -102,12 +120,7 @@ export class TimersService {
     this.categories.forEach((item, i)=>{
       item.timers.forEach((timer, j)=>{
         if(timer.id === id){
-          this.categories[i].timers[j].isCompleted = !this.categories[i].timers[j].isCompleted;
-          if(this.categories[i].timers[j].isCompleted){
-            this.categories[i].timers[j].completed.push(new Date());
-          } else {
-            this.categories[i].timers[j].completed.shift();
-          }
+          this.categories[i].timers[j].toggleComplete();
           this._idb.addOrUpdateOne("kurika", "timers", this.categories[i].timers[j]).subscribe(
             (res)=>{
               console.log("Update result:",res);
@@ -119,6 +132,7 @@ export class TimersService {
               console.log("Update complete");
             }
           )
+          // create & assign a countdown (?)
         }
       });
     });

@@ -13,13 +13,13 @@
           {{ timer.title }}
         </h5>
         <small class="text-muted mb-1">
-          <span *ngIf="timer.countdown">
+          <span *ngIf="timer.isCompleted">
             Resets in {{ timer.countdown }}
           </span>
-          <span *ngIf="!timer.countdown && timer.completed.length > 0">
+          <span *ngIf="!timer.isCompleted && timer.completed.length > 0">
             Last completed {{ timer.completed[timer.completed.length-1].toDateString() }}
           </span>
-          <span *ngIf="!timer.countdown && timer.completed.length === 0">
+          <span *ngIf="!timer.isCompleted && timer.completed.length === 0">
             <span *ngIf="timer.period === 'nr'">Does not repeat</span>
             <span *ngIf="timer.period !== 'nr'">{{ timer.period }}</span>
           </span>

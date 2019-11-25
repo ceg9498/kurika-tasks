@@ -1,9 +1,9 @@
 export type timer = {
-  id: number|string,
-  title: string,
-  resetTime: Date,
+  id?: number|string,
+  title?: string,
+  resetTime?: Date,
   required: boolean,
-  completed: Date[],
+  completed?: Date[],
   isCompleted: boolean,
   period: string,
   description?:string,
@@ -39,32 +39,32 @@ export class Timer {
   description?:string;
   category?:string;
   countdown?:string;
+  countdownMS?:number;
   
-  constructor(
-    title:string,
-    required:boolean, 
-    isCompleted:boolean, 
-    period:string, 
-    description?:string,
-    category?:string
-  ){
-    this.id = generate();
-    this.title = title;
-    this.required = required;
-    this.category = category;
-    this.description = description;
-    this.isCompleted = isCompleted;
+  constructor(n:timer){
+    this.id = n.id || generate();
+    this.title = n.title;
+    this.required = n.required;
+    this.category = n.category;
+    this.description = n.description;
+    this.isCompleted = n.isCompleted;
 
     if(this.isCompleted){
+      if(this.completed === undefined || this.completed.length === 0)
       this.completed = [new Date()];
     } else {
-      this.completed = [];
+      this.completed = [...n.completed];
     }
 
-    this.period = period;
+    this.period = n.period;
     
-    this.resetTime = null;
-    this.countdown = null;
+    this.resetTime = n.resetTime || null;
+    if(this.resetTime !== null){
+      this.checkReset();
+    }
+    if(this.isCompleted && this.resetTime === null){
+      this.setReset();
+    }
   }
 
   toggleComplete(){
@@ -76,17 +76,77 @@ export class Timer {
       }
       this.setReset();
       // generate a countdown
+    } else {
+      this.completed.pop();
     }
   }
   
   checkReset(){
-    let now = new Date();
-    // if `now` is MORE than `resetTime`, reset
-    if(now.valueOf() > this.resetTime.valueOf()){
+    // if current time is MORE than `resetTime`, reset
+    if((new Date()).valueOf() > this.resetTime.valueOf()){
+      console.log('reset')
       this.isCompleted = false;
       this.resetTime = null;
       this.countdown = null;
+      this.countdownMS = null;
+    } else {
+      if(!this.countdown || !this.countdownMS){
+        this.setCountdown();
+      }
     }
+  }
+
+  private setCountdown(){
+    this.countdownMS = this.resetTime.valueOf() - (new Date()).valueOf();
+    this.updateCountdownString();
+  }
+
+  tickCountdown(amount:number){
+    if(this.countdownMS){
+      this.countdownMS -= amount;
+    }
+    if(this.countdownMS <= 0){
+      this.checkReset();
+    } else {
+      this.updateCountdownString();
+    }
+  }
+
+  updateCountdownString(){
+    let remainingMS = this.countdownMS;
+    let dayMS = 1000 * 60 * 60 * 24;
+    let hourMS = 1000 * 60 * 60;
+    let minuteMS = 1000 * 60;
+    let secondMS = 1000;
+    let days = Math.floor(remainingMS / dayMS);
+    remainingMS -= days * dayMS;
+    let hours = Math.floor(remainingMS / hourMS);
+    remainingMS -= hours * hourMS;
+
+    // create the string next
+    let cdString = "";
+    if(days > 0){
+      cdString += days + " days";
+      if(hours > 0){
+        cdString += " and " + hours + " hours";
+      }
+    } else {
+      let minutes = Math.floor(remainingMS / minuteMS);
+      remainingMS -= minutes * minuteMS;
+      let seconds:number;
+      if(remainingMS >= 10000){
+        seconds = Math.floor(remainingMS / secondMS);
+      } else {
+        seconds = 0;
+      }
+      // don't care about anything remaining after seconds
+
+      cdString += hours.toString().padStart(2,"0") + ":";
+      cdString += minutes.toString().padStart(2,"0") + ":";
+      cdString += seconds.toString().padStart(2,"0");
+    }
+    
+    this.countdown = cdString;
   }
 
   private setReset(){
@@ -155,6 +215,7 @@ export class Timer {
       default:
         console.error("Errors were made in setReset()'s switch block!",reset[0])
     }
+    this.setCountdown();
   }
 
   private distance(daysofweek:number[], hours:number, isUTC:boolean){

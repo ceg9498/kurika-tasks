@@ -44,9 +44,12 @@ export class TimerFormComponent implements OnInit {
         this.period += this.countdownValues.amount + '-' + this.countdownValues.unit;
         break;
       case 'scheduleRepeat':
+        let useUTC = this.scheduleValues.useUTC;
         this.period = 'r-';
-        this.period += this.scheduleValues.useUTC ? 'g' : 'l';
+        this.period += useUTC ? 'g' : 'l';
         this.period += '-' + "yyyy-mm-dd-"
+
+        // validate/format hours & minutes
         let hours:number;
         if(typeof this.scheduleValues.hour === "string"){
           hours = parseInt(this.scheduleValues.hour);
@@ -56,11 +59,29 @@ export class TimerFormComponent implements OnInit {
         if(this.scheduleValues.ampm === "pm"){
           hours += 12;
         }
-        this.period += hours + '-';
-        if(this.scheduleValues.minute === ''){
-          this.scheduleValues.minute = 0;
+        let minutes:number;
+        if(typeof this.scheduleValues.minute === "string"){
+          if(this.scheduleValues.minute === ''){
+            minutes = 0;
+          } else {
+            minutes = parseInt(this.scheduleValues.minute);
+          }
+        } else {
+          minutes = this.scheduleValues.minute;
         }
-        this.period += this.scheduleValues.minute + '-';
+
+        if(useUTC){
+          let offsetTotal = (new Date()).getTimezoneOffset();
+          let offsetHours = Math.floor(offsetTotal/60);
+          let offsetMinutes = offsetTotal-(offsetHours*60);
+          this.period += (hours+offsetHours) + '-';
+          this.period += (minutes+offsetMinutes) + '-';
+        } else {
+          // local time
+          this.period += hours + '-';
+          this.period += minutes + '-';
+        }
+
         this.period += this.scheduleValues.dayOfWeek;
         break;
     }
@@ -78,6 +99,14 @@ export class TimerFormComponent implements OnInit {
     this.setPeriod();
     
     let { title, required, isCompleted, description, category } = this.timerForm.value;
-    this._timerService.addTimer(title, required, isCompleted, this.period, description, category);
+    this._timerService.addTimer({
+      title: title, 
+      required: required, 
+      isCompleted: isCompleted || false, 
+      period: this.period, 
+      description: description, 
+      category: category,
+      completed: []
+    });
   }
 }
