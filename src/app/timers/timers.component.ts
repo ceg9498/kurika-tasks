@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TimersService } from '../timers.service';
-import { timer, Timer } from '../../types/timer';
+import { Timer } from '../../types/timer';
+import { SettingsService } from '../settings.service';
 
 @Component({
   selector: 'app-timers',
@@ -9,14 +10,24 @@ import { timer, Timer } from '../../types/timer';
   styleUrls: ['./timers.component.scss']
 })
 export class TimersComponent implements OnInit {
-  timers:[{category:string, timers:Timer[]}]
+  timers:[{category:string, timers:Timer[]}];
+  settings:{};
+  deleteIcon:any;
 
   constructor(
     private _timers:TimersService,
+    private _settings:SettingsService,
   ) { }
 
   ngOnInit() {
     this.getTimers();
+    this.settings = {
+      hideCompleted: null,
+      slimTimers: null
+    }
+    this._settings.getSettings().map((setting)=>{
+      this.settings[setting.name] = setting.value
+    });
   }
 
   getTimers(){

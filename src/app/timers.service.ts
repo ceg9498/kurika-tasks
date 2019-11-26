@@ -39,7 +39,6 @@ export class TimersService implements OnDestroy {
   }
 
   tick(){
-    console.log("tick")
     this.categories.forEach((item)=>{
       item.timers.forEach((timer)=>{
         if(timer.isCompleted){

@@ -84,7 +84,6 @@ export class Timer {
   checkReset(){
     // if current time is MORE than `resetTime`, reset
     if((new Date()).valueOf() > this.resetTime.valueOf()){
-      console.log('reset')
       this.isCompleted = false;
       this.resetTime = null;
       this.countdown = null;
