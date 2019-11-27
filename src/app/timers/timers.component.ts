@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Input } from '@angular/core';
 
 import { TimersService } from '../timers.service';
 import { Timer } from '../../types/timer';
@@ -10,6 +11,7 @@ import { SettingsService } from '../settings.service';
   styleUrls: ['./timers.component.scss']
 })
 export class TimersComponent implements OnInit {
+  @Input() restrictions:string[];
   timers:[{category:string, timers:Timer[]}];
   settings:{};
   deleteIcon:any;
@@ -25,7 +27,7 @@ export class TimersComponent implements OnInit {
   }
 
   getTimers(){
-    this.timers = this._timers.getTimers();
+    this.timers = this._timers.getTimers(this.restrictions);
   }
 
   deleteTimer(id:string){
