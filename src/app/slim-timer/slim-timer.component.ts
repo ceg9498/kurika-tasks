@@ -8,6 +8,7 @@ import { Input } from '@angular/core';
 })
 export class SlimTimerComponent implements OnInit {
   @Input() timers;
+  @Input() hideCompleted:boolean;
 
   constructor() { }
 

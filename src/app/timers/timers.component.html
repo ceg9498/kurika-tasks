@@ -5,11 +5,17 @@
     </div>
     <!-- Slim Version -->
     <div class="list-group list-group-flush" *ngIf="settings.slimTimers.value">
-      <app-slim-timer [timers]="category.timers"></app-slim-timer>
+      <app-slim-timer 
+        [timers]="category.timers" 
+        [hideCompleted]="settings.hideCompleted.value">
+      </app-slim-timer>
     </div>
     <!-- Details Version -->
     <div class="list-group list-group-flush" *ngIf="!settings.slimTimers.value">
-      <app-detail-timer [timers]="category.timers"></app-detail-timer>
+      <app-detail-timer 
+        [timers]="category.timers" 
+        [hideCompleted]="settings.hideCompleted.value">
+      </app-detail-timer>
     </div>
   </div>
 </div>
