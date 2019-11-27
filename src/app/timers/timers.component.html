@@ -4,11 +4,11 @@
       {{ category.category }}
     </div>
     <!-- Slim Version -->
-    <div class="list-group list-group-flush" *ngIf="settings.slimTimers">
+    <div class="list-group list-group-flush" *ngIf="settings.slimTimers.value">
       <app-slim-timer [timers]="category.timers"></app-slim-timer>
     </div>
     <!-- Details Version -->
-    <div class="list-group list-group-flush" *ngIf="!settings.slimTimers">
+    <div class="list-group list-group-flush" *ngIf="!settings.slimTimers.value">
       <app-detail-timer [timers]="category.timers"></app-detail-timer>
     </div>
   </div>

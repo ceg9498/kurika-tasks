@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 
 import { SettingsService } from '../settings.service';
 import { IndexedDbService } from '../indexed-db.service';
+import { settings as settingsList } from '../../assets/data/settings';
 
 @Component({
   selector: 'app-settings',
@@ -10,7 +11,8 @@ import { IndexedDbService } from '../indexed-db.service';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-  settings:{name:string, text:string, control:FormControl}[] = [];
+  settings:{};
+  settingsList;
 
   constructor(
     private _settingsServ: SettingsService,
@@ -18,21 +20,19 @@ export class SettingsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let temp = this._settingsServ.getSettings();
-    temp.forEach((setting)=>{
-      this.settings.push({
-        name: setting.name,
-        text: setting.text,
-        control: new FormControl(setting.value)
-      });
+    this.settingsList = [...settingsList];
+    this.settings = this._settingsServ.getSettings();
+    settingsList.forEach((setting)=>{
+      this.settings[setting.name].control = new FormControl(this.settings[setting.name].value);
     });
   }
 
   updateSetting(item:string) {
     this._settingsServ.updateSetting(
       item, 
-      this.settings.filter((setting)=>setting.name === item)[0].control.value
+      this.settings[item].control.value
     );
+    console.log(this.settings);
   }
 
   deleteAllData(){

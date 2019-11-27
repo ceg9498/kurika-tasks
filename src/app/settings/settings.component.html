@@ -1,10 +1,10 @@
 <div class="content">
-  <div class="form-check" *ngFor="let setting of settings">
+  <div class="form-check" *ngFor="let setting of settingsList">
     <input type="checkbox" 
       class="form-check-input" 
       value="" 
       [id]="setting.name" 
-      [formControl]="setting.control"
+      [formControl]="settings[setting.name].control"
       (change)="updateSetting(setting.name)">
     <label class="form-check-label" [for]="setting.name">
       {{ setting.text }}

@@ -21,13 +21,7 @@ export class TimersComponent implements OnInit {
 
   ngOnInit() {
     this.getTimers();
-    this.settings = {
-      hideCompleted: null,
-      slimTimers: null
-    }
-    this._settings.getSettings().map((setting)=>{
-      this.settings[setting.name] = setting.value
-    });
+    this.settings = this._settings.getSettings();
   }
 
   getTimers(){
