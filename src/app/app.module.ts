@@ -14,6 +14,8 @@ import { HomeComponent } from './home/home.component';
 import { TimersComponent } from './timers/timers.component';
 import { CountdownTypeFormComponent } from './countdown-type-form/countdown-type-form.component';
 import { ScheduleTypeFormComponent } from './schedule-type-form/schedule-type-form.component';
+import { SlimTimerComponent } from './slim-timer/slim-timer.component';
+import { DetailTimerComponent } from './detail-timer/detail-timer.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { ScheduleTypeFormComponent } from './schedule-type-form/schedule-type-fo
     HomeComponent,
     TimersComponent,
     CountdownTypeFormComponent,
-    ScheduleTypeFormComponent
+    ScheduleTypeFormComponent,
+    SlimTimerComponent,
+    DetailTimerComponent
   ],
   imports: [
     BrowserModule,

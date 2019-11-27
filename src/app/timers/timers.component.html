@@ -1,4 +1,3 @@
-
 <div class="content card-columns">
   <div class="card" style="width: 300px;" *ngFor="let category of timers">
     <div class="card-header">
@@ -6,58 +5,11 @@
     </div>
     <!-- Slim Version -->
     <div class="list-group list-group-flush" *ngIf="settings.slimTimers">
-      <a class="list-group-item list-group-item-action d-flex flex-row " 
-      *ngFor="let timer of category.timers"
-      (click)="toggleCompleted(timer.id)">
-      <h5 class="mb-1 d-inline-block flex-grow-1">
-        <div class="" *ngIf="!timer.isCompleted">
-          <span *ngIf="timer.required">⭐</span>
-          {{ timer.title }}
-        </div>
-        <div class="strikethrough text-muted font-italic" *ngIf="timer.isCompleted">
-          <span *ngIf="timer.required">⭐</span>
-          {{ timer.title }}
-        </div>
-      </h5>
-      <button type="button" 
-        class="btn" 
-        (click)="deleteTimer(timer.id)">
-        <svg width="24" height="24">
-          <use href="../../assets/icon/delete-24px.svg#delete" x="0" y="0" class="delete-icon" />
-        </svg>
-      </button>
-    </a>
-  </div>
+      <app-slim-timer [timers]="category.timers"></app-slim-timer>
+    </div>
     <!-- Details Version -->
     <div class="list-group list-group-flush" *ngIf="!settings.slimTimers">
-      <a class="list-group-item list-group-item-action" 
-        *ngFor="let timer of category.timers"
-        (click)="toggleCompleted(timer.id)">
-        <h5 class="mb-1">
-          <span *ngIf="timer.isCompleted">✔</span>
-          <span *ngIf="!timer.isCompleted && timer.required">⭐</span>
-          {{ timer.title }}
-        </h5>
-        <small class="text-muted mb-1">
-          <span *ngIf="timer.isCompleted">
-            Resets in {{ timer.countdown }}
-          </span>
-          <span *ngIf="!timer.isCompleted && timer.completed.length > 0">
-            Last completed {{ timer.completed[timer.completed.length-1].toDateString() }}
-          </span>
-          <span *ngIf="!timer.isCompleted && timer.completed.length === 0">
-            <span *ngIf="timer.period === 'nr'">Does not repeat</span>
-            <span *ngIf="timer.period !== 'nr'">{{ timer.period }}</span>
-          </span>
-        </small>
-        <p *ngIf="timer.description">{{ timer.description }}</p>
-        <div *ngIf="!timer.description"><br/></div>
-        <button type="button" 
-          class="btn btn-outline-danger" 
-          (click)="deleteTimer(timer.id)">
-          Delete
-        </button>
-      </a>
+      <app-detail-timer [timers]="category.timers"></app-detail-timer>
     </div>
   </div>
 </div>
