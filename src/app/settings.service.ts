@@ -7,7 +7,6 @@ import { settings } from '../assets/data/settings';
   providedIn: 'root'
 })
 export class SettingsService {
-  //settings:{name:string, text:string, value:boolean}[];
   settings:{};
 
   constructor(
@@ -28,7 +27,6 @@ export class SettingsService {
     if(this.settings === undefined){
       this.init();
     }
-    console.log("service settings:",this.settings);
     return this.settings;
   }
 

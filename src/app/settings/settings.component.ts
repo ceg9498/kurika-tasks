@@ -32,7 +32,6 @@ export class SettingsComponent implements OnInit {
       item, 
       this.settings[item].control.value
     );
-    console.log(this.settings);
   }
 
   deleteAllData(){
