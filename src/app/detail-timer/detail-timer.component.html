@@ -1,6 +1,7 @@
 <div
-  *ngFor="let timer of timers">
-  <a class="list-group-item list-group-item-action" 
+  *ngFor="let timer of timers"
+  class="d-flex flex-row align-items-start list-group-item list-group-item-action">
+  <a class="flex-grow-1"
     *ngIf="(timer.isCompleted && !hideCompleted) || (!timer.isCompleted)"
     (click)="toggleCompleted(timer.id)">
     <h5 class="mb-1">
@@ -22,10 +23,10 @@
     </small>
     <p *ngIf="timer.description">{{ timer.description }}</p>
     <div *ngIf="!timer.description"><br/></div>
-    <button type="button" 
-      class="btn btn-outline-danger" 
-      (click)="deleteTimer(timer.id)">
-      Delete
-    </button>
   </a>
+  <button type="button" 
+    class="btn btn-outline-danger" 
+    (click)="deleteTimer(timer.id)">
+    Delete
+  </button>
 </div>
