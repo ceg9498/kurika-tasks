@@ -34,17 +34,17 @@
   text-decoration: line-through;
 }
 
-.delete-icon {
+.delete-icon > svg {
   fill: red;
 }
-.delete-icon:hover {
+.delete-icon:hover > svg {
   fill: #ccc;
   stroke: red;
 }
 
-.info-icon {
+.info-icon > svg {
   fill: #aaa;
 }
-.info-icon:hover {
+.info-icon:hover > svg {
   fill: #666;
 }
