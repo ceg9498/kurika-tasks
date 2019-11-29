@@ -1,10 +1,10 @@
 <div
   *ngFor="let timer of timers"
-  class="d-flex flex-row">
-  <a class="list-group-item list-group-item-action" 
+  class="d-flex flex-row list-group-item list-group-item-action">
+  <a class="flex-grow-1" 
     *ngIf="(timer.isCompleted && !hideCompleted) || (!timer.isCompleted)"
     (click)="toggleCompleted(timer.id)">
-    <h5 class="mb-1 d-inline-block flex-grow-1">
+    <h5 class="mb-1 d-inline-block">
       <div class="" *ngIf="!timer.isCompleted">
         <span *ngIf="timer.required">⭐</span>
         {{ timer.title }}
@@ -16,10 +16,10 @@
     </h5>
   </a>
   <button type="button" 
-    class="btn" 
+    class="btn info-icon" 
     (click)="showInfo(timer.id)">
     <svg width="24" height="24">
-      <use href="../../assets/icon/info-24px.svg#info" x="0" y="0" class="info-icon" />
+      <use href="../../assets/icon/info-24px.svg#info" x="0" y="0" />
     </svg>
   </button>
 </div>
