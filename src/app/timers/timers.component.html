@@ -3,21 +3,25 @@
     <div class="card-header">
       {{ category.category }}
     </div>
-    <!-- Slim Version -->
-    <div class="list-group list-group-flush" *ngIf="settings.slimTimers.value">
-      <app-slim-timer 
-        *ngFor="let timer of category.timers"
-        [timer]="timer" 
-        [hideCompleted]="settings.hideCompleted.value">
-      </app-slim-timer>
-    </div>
-    <!-- Details Version -->
-    <div class="list-group list-group-flush" *ngIf="!settings.slimTimers.value">
-      <app-detail-timer 
-        *ngFor="let timer of category.timers"
-        [timer]="timer" 
-        [hideCompleted]="settings.hideCompleted.value">
-      </app-detail-timer>
+    <div class="list-group list-group-flush">
+      <!-- Slim Version -->
+      <div *ngIf="settings.slimTimers.value">
+        <app-slim-timer 
+          class="list-group-item list-group-item-action"
+          *ngFor="let timer of category.timers"
+          [timer]="timer" 
+          [hideCompleted]="settings.hideCompleted.value">
+        </app-slim-timer>
+      </div>
+      <!-- Details Version -->
+      <div *ngIf="!settings.slimTimers.value">
+        <app-detail-timer 
+          class="list-group-item list-group-item-action"
+          *ngFor="let timer of category.timers"
+          [timer]="timer" 
+          [hideCompleted]="settings.hideCompleted.value">
+        </app-detail-timer>
+      </div>
     </div>
   </div>
 </div>

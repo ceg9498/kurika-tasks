@@ -1,6 +1,6 @@
 <div
   *ngIf="(timer.isCompleted && !hideCompleted) || (!timer.isCompleted)"
-  class="d-flex flex-row list-group-item list-group-item-action">
+  class="d-flex flex-row">
   <a class="flex-grow-1" 
     (click)="toggleCompleted(timer.id)">
     <h5 class="mb-1 d-inline-block">
