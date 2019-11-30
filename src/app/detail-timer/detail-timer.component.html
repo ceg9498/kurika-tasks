@@ -1,8 +1,7 @@
 <div
-  *ngFor="let timer of timers"
-  class="d-flex flex-row align-items-start list-group-item list-group-item-action">
+  class="d-flex flex-row align-items-start list-group-item list-group-item-action"
+  *ngIf="(timer.isCompleted && !hideCompleted) || (!timer.isCompleted)">
   <a class="flex-grow-1"
-    *ngIf="(timer.isCompleted && !hideCompleted) || (!timer.isCompleted)"
     (click)="toggleCompleted(timer.id)">
     <h5 class="mb-1">
       <span *ngIf="timer.isCompleted">✔</span>

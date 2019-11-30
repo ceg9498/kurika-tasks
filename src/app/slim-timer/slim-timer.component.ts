@@ -10,7 +10,7 @@ import { Timer } from '../../types/timer';
   styleUrls: ['./slim-timer.component.scss']
 })
 export class SlimTimerComponent implements OnInit {
-  @Input() timers:Timer[];
+  @Input() timer:Timer;
   @Input() hideCompleted:boolean;
 
   constructor(

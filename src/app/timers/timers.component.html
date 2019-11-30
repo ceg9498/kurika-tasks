@@ -6,14 +6,16 @@
     <!-- Slim Version -->
     <div class="list-group list-group-flush" *ngIf="settings.slimTimers.value">
       <app-slim-timer 
-        [timers]="category.timers" 
+        *ngFor="let timer of category.timers"
+        [timer]="timer" 
         [hideCompleted]="settings.hideCompleted.value">
       </app-slim-timer>
     </div>
     <!-- Details Version -->
     <div class="list-group list-group-flush" *ngIf="!settings.slimTimers.value">
       <app-detail-timer 
-        [timers]="category.timers" 
+        *ngFor="let timer of category.timers"
+        [timer]="timer" 
         [hideCompleted]="settings.hideCompleted.value">
       </app-detail-timer>
     </div>
