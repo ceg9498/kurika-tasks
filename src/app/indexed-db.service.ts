@@ -207,7 +207,7 @@ export class IndexedDbService {
   
         objStoreReq.onsuccess = (event:any) => {
           // resolve
-          () => observer.next(event.target.result);
+          observer.next(event.target.result);
         };
   
         objStoreReq.onerror = (event:any) => {
