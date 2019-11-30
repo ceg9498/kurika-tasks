@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 
 import { settings } from '../assets/data/settings';
+import { MessageServiceService } from './message-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class SettingsService {
 
   constructor(
     private _cookies: CookieService,
+    private _messages: MessageServiceService,
   ) {}
 
   init(){
@@ -34,6 +36,7 @@ export class SettingsService {
     if(this.settings[name]){
       this.settings[name].value = value;
       this._cookies.set(name, value.toString());
+      this._messages.addNotice("Success", "Settings updated.");
     }
   }
 }

@@ -16,6 +16,8 @@ import { CountdownTypeFormComponent } from './countdown-type-form/countdown-type
 import { ScheduleTypeFormComponent } from './schedule-type-form/schedule-type-form.component';
 import { SlimTimerComponent } from './slim-timer/slim-timer.component';
 import { DetailTimerComponent } from './detail-timer/detail-timer.component';
+import { MessagesComponent } from './messages/messages.component';
+import { MessageDisplayComponent } from './message-display/message-display.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { DetailTimerComponent } from './detail-timer/detail-timer.component';
     CountdownTypeFormComponent,
     ScheduleTypeFormComponent,
     SlimTimerComponent,
-    DetailTimerComponent
+    DetailTimerComponent,
+    MessagesComponent,
+    MessageDisplayComponent,
   ],
   imports: [
     BrowserModule,

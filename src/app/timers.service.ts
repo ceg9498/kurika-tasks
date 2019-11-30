@@ -2,6 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 
 import { IndexedDbService } from './indexed-db.service';
 import { timer, Timer } from '../types/timer';
+import { MessageServiceService } from './message-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class TimersService implements OnDestroy {
 
   constructor(
     private _idb:IndexedDbService,
+    private _messages:MessageServiceService,
   ) { }
 
   ngOnDestroy(){
@@ -28,10 +30,11 @@ export class TimersService implements OnDestroy {
         this.setTimer(res);
       },
       (err) => {
-        console.error("Error retrieving timer data!",err);
+        console.error("Error retrieving timer data:",err);
+        this._messages.addError("Error", "An error was encountered when attempting to retrieve your data. Please see the logs.");
       },
       () => {
-        console.log("Timers retrieval complete.");
+        this._messages.addNotice("Success", "Timers retrieval complete.");
         this.cleanCategories();
       }
     )
@@ -77,15 +80,13 @@ export class TimersService implements OnDestroy {
     console.log(nTimer);
     this.setTimer(nTimer);
     this._idb.addOrUpdateOne("kurika", "timers", nTimer).subscribe(
-      (res) => {
-        console.log("Saved timer result:",res);
+      () => {
+        this._messages.addNotice("Success", "Your new timer has been saved!");
       },
       (err) => {
         console.error("Error saving timer:",err);
+        this._messages.addError("Error", "Your new timer has not been saved. Please see the logs.");
       },
-      () => {
-        console.log("Saving timer completed.");
-      }
     );
   }
 
@@ -99,14 +100,15 @@ export class TimersService implements OnDestroy {
       });
     });
     this._idb.deleteOne("kurika", "timers", id).subscribe(
-      (res) => {
-        console.log("Delete timer result:",res);
+      () => {
+        console.log("deleted timer")
+        this._messages.addNotice("Success", "Your timer has been deleted.");
       },
       (err) => {
         console.error("Error deleting timer:",err);
-      },
-      () => {
-        console.log("Delete timer completed.");
+        this._messages.addError("Error", "There was an error deleting your timer. Please see the logs.");
+      }, () =>{
+        console.log("deleted timer: complete")
       }
     );
   }
@@ -144,17 +146,14 @@ export class TimersService implements OnDestroy {
         if(timer.id === id){
           this.categories[i].timers[j].toggleComplete();
           this._idb.addOrUpdateOne("kurika", "timers", this.categories[i].timers[j]).subscribe(
-            (res)=>{
-              console.log("Update result:",res);
+            ()=>{
+              this._messages.addNotice("Success", "Timer status has been updated");
             },
             (err)=>{
               console.log("Update error:",err);
+              this._messages.addError("Error", "Error updating timer status");
             },
-            () => {
-              console.log("Update complete");
-            }
           )
-          // create & assign a countdown (?)
         }
       });
     });
