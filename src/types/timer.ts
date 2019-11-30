@@ -82,6 +82,9 @@ export class Timer {
   }
   
   checkReset(){
+    if(this.period === 'nr'){
+      return;
+    }
     // if current time is MORE than `resetTime`, reset
     if((new Date()).valueOf() > this.resetTime.valueOf()){
       this.isCompleted = false;
@@ -96,8 +99,12 @@ export class Timer {
   }
 
   private setCountdown(){
-    this.countdownMS = this.resetTime.valueOf() - (new Date()).valueOf();
-    this.updateCountdownString();
+    if(this.period !== 'nr'){
+      this.countdownMS = this.resetTime.valueOf() - (new Date()).valueOf();
+      this.updateCountdownString();
+    } else {
+      this.countdown = "none";
+    }
   }
 
   tickCountdown(amount:number){
@@ -112,6 +119,10 @@ export class Timer {
   }
 
   updateCountdownString(){
+    if(this.period === 'nr'){
+      this.countdown = "none";
+      return;
+    }
     let remainingMS = this.countdownMS;
     let dayMS = 1000 * 60 * 60 * 24;
     let hourMS = 1000 * 60 * 60;
@@ -145,7 +156,7 @@ export class Timer {
       cdString += seconds.toString().padStart(2,"0");
     }
     
-    this.countdown = cdString;
+    this.countdown = "Resets in " + cdString;
   }
 
   private setReset(){
@@ -155,7 +166,7 @@ export class Timer {
     switch(reset[0]){
       case 'nr':
         // no reset: nothing happens!
-        return;
+        break;
       case 'i':
         // reset after reset[1] amount of reset[2] units
         let amount = parseInt(reset[1]);
@@ -194,9 +205,7 @@ export class Timer {
         // reset[4] (unused)
         let hours = parseInt(reset[5]);
         let minutes = parseInt(reset[6]);
-        let daysofweek = reset[7].split('').map(str=>{
-          return parseInt(str);
-        });
+        let daysofweek = reset[7].split('').map(str=>parseInt(str));
 
         // calculate & set the date
         this.resetTime.setDate(this.resetTime.getDate() + this.distance(daysofweek, hours, useUTC));

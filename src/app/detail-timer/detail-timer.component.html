@@ -19,14 +19,19 @@
     </button>
   </div>
   <small class="text-muted">
-    <span *ngIf="timer.isCompleted">
-      Resets in {{ timer.countdown }}
+    <span *ngIf="timer.isCompleted && !timer.countdown">
+      Calculating...
+    </span>
+    <span *ngIf="timer.isCompleted && timer.countdown !== 'none'">
+      {{ timer.countdown }}
+    </span>
+    <span *ngIf="timer.isCompleted && timer.countdown === 'none'">
+      Does not reset
     </span>
     <span *ngIf="!timer.isCompleted && timer.completed.length > 0">
       Last completed {{ timer.completed[timer.completed.length-1].toDateString() }}
     </span>
     <span *ngIf="!timer.isCompleted && timer.completed.length === 0">
-      <span *ngIf="timer.period === 'nr'">Does not repeat</span>
       <span *ngIf="timer.period !== 'nr'">{{ timer.period }}</span>
     </span>
   </small>
