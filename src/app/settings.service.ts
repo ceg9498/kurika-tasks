@@ -36,7 +36,9 @@ export class SettingsService {
     if(this.settings[name]){
       this.settings[name].value = value;
       this._cookies.set(name, value.toString());
-      this._messages.addNotice("Success", "Settings updated.");
+      let updateStr = "Settings updated: " + this.settings[name].text + " has been ";
+      updateStr += value ? " enabled." : " disabled.";
+      this._messages.addNotice("Success", updateStr);
     }
   }
 }
