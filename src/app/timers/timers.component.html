@@ -4,24 +4,24 @@
       {{ category.category }}
     </div>
     <div class="list-group list-group-flush">
-      <!-- Slim Version -->
-      <div *ngIf="settings.slimTimers.value">
-        <app-slim-timer 
-          class="list-group-item list-group-item-action"
-          *ngFor="let timer of category.timers"
-          [timer]="timer" 
-          [hideCompleted]="settings.hideCompleted.value">
-        </app-slim-timer>
-      </div>
-      <!-- Details Version -->
-      <div *ngIf="!settings.slimTimers.value">
-        <app-detail-timer 
-          class="list-group-item list-group-item-action"
-          *ngFor="let timer of category.timers"
-          [timer]="timer" 
-          [hideCompleted]="settings.hideCompleted.value">
-        </app-detail-timer>
-      </div>
+      <ng-container *ngFor="let timer of category.timers">
+        <ng-container *ngIf="(timer.isCompleted && !settings.hideCompleted.value) || (!timer.isCompleted)">
+          <!-- Slim Version -->
+          <ng-container *ngIf="settings.slimTimers.value">
+            <app-slim-timer 
+              class="list-group-item list-group-item-action"
+              [timer]="timer">
+            </app-slim-timer>
+          </ng-container>
+          <!-- Details Version -->
+          <ng-container *ngIf="!settings.slimTimers.value">
+            <app-detail-timer 
+              class="list-group-item list-group-item-action"
+              [timer]="timer">
+            </app-detail-timer>
+          </ng-container>
+        </ng-container>
+      </ng-container>
     </div>
   </div>
 </div>

@@ -10,8 +10,7 @@ import { Timer } from '../../types/timer';
   styleUrls: ['./detail-timer.component.scss']
 })
 export class DetailTimerComponent implements OnInit {
-  @Input() timer;
-  @Input() hideCompleted:boolean;
+  @Input() timer:Timer;
 
   constructor(
     private _timers:TimersService,

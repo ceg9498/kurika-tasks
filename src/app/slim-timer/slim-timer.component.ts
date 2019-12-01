@@ -11,7 +11,6 @@ import { Timer } from '../../types/timer';
 })
 export class SlimTimerComponent implements OnInit {
   @Input() timer:Timer;
-  @Input() hideCompleted:boolean;
 
   constructor(
     private _timers:TimersService,
