@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 
 import { IndexedDbService } from './indexed-db.service';
 import { timer, Timer } from '../types/timer';
-import { MessageServiceService } from './message-service.service';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class TimersService implements OnDestroy {
 
   constructor(
     private _idb:IndexedDbService,
-    private _messages:MessageServiceService,
+    private _messages:MessageService,
   ) { }
 
   ngOnDestroy(){

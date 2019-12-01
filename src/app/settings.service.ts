@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 
 import { settings } from '../assets/data/settings';
-import { MessageServiceService } from './message-service.service';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class SettingsService {
 
   constructor(
     private _cookies: CookieService,
-    private _messages: MessageServiceService,
+    private _messages: MessageService,
   ) {}
 
   init(){

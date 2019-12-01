@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Input } from '@angular/core';
 
-import { MessageServiceService } from '../message-service.service';
+import { MessageService } from '../message.service';
 
 @Component({
   selector: 'app-message-display',
@@ -14,7 +14,7 @@ export class MessageDisplayComponent implements OnInit {
   @Input() error:boolean;
 
   constructor(
-    private _messages:MessageServiceService,
+    private _messages:MessageService,
   ) { }
 
   ngOnInit() {
