@@ -9,6 +9,7 @@ import { MessageService } from './message.service';
 })
 export class TimersService implements OnDestroy {
   categories:[{category:string, timers:Timer[]}];
+  dashCategories:[{category:string, timers:Timer[]}];
   interval:any;
 
   constructor(
@@ -22,6 +23,10 @@ export class TimersService implements OnDestroy {
 
   init(){
     this.categories = [{
+      category: "No Category",
+      timers: []
+    }];
+    this.dashCategories = [{
       category: "No Category",
       timers: []
     }];
@@ -65,14 +70,44 @@ export class TimersService implements OnDestroy {
     } else {
       this.categories[i].timers.push(n);
     }
+
+    // add to dash array (maybe)
+    if(!timer.isCompleted && timer.required){
+      i = this.dashCategories.findIndex((category)=> category.category === timer.category);
+      if(i === -1){
+        this.dashCategories.push({
+          category: timer.category,
+          timers: [n]
+        });
+      } else {
+        this.categories[i].timers.push(n);
+      }
+    }
   }
 
   cleanCategories(){
+    let toRemove:number[] = [];
+
     this.categories.forEach((category, i)=>{
       if(category.timers.length === 0){
-        this.categories.splice(i, 1);
+        toRemove.push(i);
       }
-    })
+    });
+    toRemove.reverse().forEach((i)=>{
+      this.categories.splice(i, 1);
+    });
+
+    // reset to clean dashCategories
+    toRemove = [];
+  
+    this.dashCategories.forEach((category, i)=>{
+      if(category.timers.length === 0){
+        toRemove.push(i);
+      }
+    });
+    toRemove.reverse().forEach((i)=>{
+      this.dashCategories.splice(i, 1);
+    });
   }
 
   addTimer(n:timer) {
@@ -114,28 +149,8 @@ export class TimersService implements OnDestroy {
   }
 
   getTimers(restrictions?:string[]){
-    if(restrictions !== undefined){
-      let result:[{category:string, timers:Timer[]}] = [{category:"No Category",timers:[]}];
-      if(restrictions.includes("hideCompleted") && restrictions.includes("important")){
-        this.categories.forEach((category)=>{
-          result.push({
-            category: category.category, 
-            timers: category.timers.filter((timer)=>!timer.isCompleted && timer.required)
-          });
-        });
-      }
-
-      let toRemove:number[] = [];
-      result.forEach((item,i)=>{
-        if(item.timers.length === 0){
-          toRemove.push(i);
-        }
-      });
-      toRemove.reverse().forEach((i)=>{
-        result.splice(i,1);
-      });
-
-      return result;
+    if(restrictions && restrictions.includes("hideCompleted") && restrictions.includes("important")){
+      return this.dashCategories;
     }
     return this.categories;
   }
