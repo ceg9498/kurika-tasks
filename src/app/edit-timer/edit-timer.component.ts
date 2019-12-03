@@ -25,9 +25,7 @@ export class EditTimerComponent implements OnInit {
       this.id = params.get('id');
       this._timers.getById(this.id).subscribe(
         (res) => {
-          console.log("Result:",res)
           this.timer = new Timer(res);
-          this._messages.addNotice("Success",`Timer ID ${this.id} has been loaded.`);
         },
         (err) => {
           console.error("Error:",err);
