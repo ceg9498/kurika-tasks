@@ -10,7 +10,8 @@
           <ng-container *ngIf="settings.slimTimers.value">
             <app-slim-timer 
               class="list-group-item list-group-item-action"
-              [timer]="timer">
+              [timer]="timer"
+              (info)="openDialog($event)">
             </app-slim-timer>
           </ng-container>
           <!-- Details Version -->
@@ -22,6 +23,32 @@
           </ng-container>
         </ng-container>
       </ng-container>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="dialogIsOpen" 
+  class="my-modal"
+  tabIndex="-1" 
+  role="dialog" 
+  aria-labeledby="dialog-title">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="dialog-title">
+          {{ dialogData.title }}
+        </div>
+        <button type="button" class="close" (click)="closeDialog()" aria-label="close">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        {{ dialogData.description }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" (click)="deleteTimer(dialogData.id)">Delete</button>
+        <button type="button" class="btn btn-primary" (click)="closeDialog()">Close</button>
+      </div>
     </div>
   </div>
 </div>

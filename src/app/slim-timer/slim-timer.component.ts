@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Input } from '@angular/core';
+import { Input, Output } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 
 import { TimersService } from '../timers.service';
 import { Timer } from '../../types/timer';
@@ -11,6 +12,7 @@ import { Timer } from '../../types/timer';
 })
 export class SlimTimerComponent implements OnInit {
   @Input() timer:Timer;
+  @Output() info = new EventEmitter();
 
   constructor(
     private _timers:TimersService,
@@ -19,8 +21,8 @@ export class SlimTimerComponent implements OnInit {
   ngOnInit() {
   }
 
-  showInfo(id:string|number) {
-    console.log("Show info for timer:",id)
+  showInfo(){
+    this.info.emit(this.timer.id);
   }
 
   toggleCompleted(id:string){

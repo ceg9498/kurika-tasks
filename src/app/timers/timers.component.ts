@@ -15,6 +15,8 @@ export class TimersComponent implements OnInit {
   timers:[{category:string, timers:Timer[]}];
   settings:{};
   deleteIcon:any;
+  dialogIsOpen:boolean = false;
+  dialogData:Timer = null;
 
   constructor(
     private _timers:TimersService,
@@ -32,9 +34,29 @@ export class TimersComponent implements OnInit {
 
   deleteTimer(id:string){
     this._timers.deleteTimer(id);
+    if(this.dialogIsOpen && this.dialogData.id === id){
+      this.closeDialog();
+    }
   }
 
   toggleCompleted(id:string){
     this._timers.toggleCompleted(id);
+  }
+
+  openDialog(id:string){
+    console.log("Open dialog for ID:",id);
+    this.dialogIsOpen = true;
+    for(let inTimers of this.timers){
+      for(let timer of inTimers.timers){
+        if(timer.id === id){
+          this.dialogData = timer;
+        }
+      }
+    }
+  }
+
+  closeDialog(){
+    this.dialogIsOpen = false;
+    this.dialogData = null;
   }
 }
