@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { TimersService } from '../timers.service';
 import { interval, Interval } from '../../types/interval';
 import { schedule, Schedule } from '../../types/schedule';
+import { Timer } from 'src/types/timer';
 
 @Component({
   selector: 'app-timer-form',
@@ -11,6 +13,8 @@ import { schedule, Schedule } from '../../types/schedule';
   styleUrls: ['./timer-form.component.scss']
 })
 export class TimerFormComponent implements OnInit {
+  @Input() timer:Timer = null;
+  isNew:boolean;
   timerForm:FormGroup;
   period:string;
   countdownValues:interval;
@@ -21,15 +25,41 @@ export class TimerFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if(this.timer === null){
+      this.isNew = true;
+      this.timer = new Timer({
+        title:'',
+        category:'',
+        description:'',
+        required:false,
+        isCompleted:false,
+        completed:[],
+        period:'nr'});
+    } else {
+      this.isNew = false;
+    }
+    let repeatType:string;
+    switch(this.timer.period[0]){
+      case 'n':
+        repeatType = 'noRepeat';
+        break;
+      case 'r':
+        repeatType = 'scheduleRepeat';
+        break;
+      case 'i':
+        repeatType = 'cdRepeat';
+        break;
+    }
     this.timerForm = new FormGroup({
-      title: new FormControl(''),
-      category: new FormControl(''),
-      description: new FormControl(''),
-      required: new FormControl(false),
-      isCompleted: new FormControl(false),
-      repeatType: new FormControl('noRepeat')
+      title: new FormControl(this.timer.title || ''),
+      category: new FormControl(this.timer.category || ''),
+      description: new FormControl(this.timer.description || ''),
+      required: new FormControl(this.timer.required || false),
+      isCompleted: new FormControl(this.timer.isCompleted || false),
+      repeatType: new FormControl(repeatType)
     });
-    this.period = 'nr';
+    this.period = this.timer.period || 'nr';
+  
     this.countdownValues = new Interval();
     this.scheduleValues = new Schedule();
   }
@@ -99,14 +129,27 @@ export class TimerFormComponent implements OnInit {
     this.setPeriod();
     
     let { title, required, isCompleted, description, category } = this.timerForm.value;
-    this._timerService.addTimer({
-      title: title, 
-      required: required, 
-      isCompleted: isCompleted || false, 
-      period: this.period, 
-      description: description, 
-      category: category,
-      completed: []
-    });
+    if(this.isNew){
+      this._timerService.addTimer({
+        title: title, 
+        required: required, 
+        isCompleted: isCompleted || false, 
+        period: this.period, 
+        description: description, 
+        category: category,
+        completed: []
+      }, false);
+    } else {
+      this._timerService.addTimer({
+        id: this.timer.id,
+        title: title, 
+        required: required, 
+        isCompleted: isCompleted || false, 
+        period: this.period, 
+        description: description, 
+        category: category,
+        completed: []
+      }, true);
+    }
   }
 }

@@ -48,6 +48,7 @@
         <p *ngIf="!dialogData.description">No description available.</p>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" [routerLink]="['/timers/edit',dialogData.id]">Edit</button>
         <button type="button" class="btn btn-outline-danger" (click)="deleteTimer(dialogData.id)">Delete</button>
         <button type="button" class="btn btn-primary" (click)="closeDialog()">Close</button>
       </div>

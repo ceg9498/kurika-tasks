@@ -110,10 +110,12 @@ export class TimersService implements OnDestroy {
     });
   }
 
-  addTimer(n:timer) {
+  addTimer(n:timer, update:boolean = false) {
     let nTimer = new Timer(n);
-    console.log(nTimer);
-    this.setTimer(nTimer);
+    if(!update){
+      this.setTimer(nTimer);
+    }
+    
     this._idb.addOrUpdateOne("kurika", "timers", nTimer).subscribe(
       () => {
         this._messages.addNotice("Success", "Your new timer has been saved!");
@@ -153,6 +155,10 @@ export class TimersService implements OnDestroy {
       return this.dashCategories;
     }
     return this.categories;
+  }
+
+  getById(id:string){
+    return this._idb.getById("kurika", "timers", id);
   }
 
   toggleCompleted(id:string){
