@@ -27,7 +27,7 @@ export class MessageService {
       error: error
     });
     this.timers[id] = setTimeout(()=> {
-      this.removeMessage(title, message, error);
+      this.removeMessage(id);
     }, delay);
     if(this.messages.length > MAX_MESSAGES) {
       clearTimeout(this.timers[this.messages[0].id]);
@@ -41,11 +41,9 @@ export class MessageService {
     this.addMessage(title, message, true, delay);
   }
 
-  removeMessage(title:string, message:string, error:boolean){
+  removeMessage(id:string){
     for(let [index, msg] of this.messages.entries()){
-      if(msg.title === title &&
-        msg.message === message &&
-        msg.error === error){
+      if(msg.id === id){
           clearTimeout(this.timers[this.messages[index].id]);
           this.messages.splice(index, 1);
           break;

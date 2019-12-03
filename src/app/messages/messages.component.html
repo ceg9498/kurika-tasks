@@ -1,5 +1,10 @@
 <div style="position:absolute; top: 60px; right: 5px;">
   <div *ngFor="let message of messages">
-    <app-message-display [title]="message.title" [message]="message.message" [error]="message.error"></app-message-display>
+    <app-message-display 
+      [id]="message.id" 
+      [title]="message.title" 
+      [message]="message.message" 
+      [error]="message.error">
+    </app-message-display>
   </div>
 </div>

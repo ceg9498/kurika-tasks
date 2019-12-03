@@ -9,6 +9,7 @@ import { MessageService } from '../message.service';
   styleUrls: ['./message-display.component.scss']
 })
 export class MessageDisplayComponent implements OnInit {
+  @Input() id:string;
   @Input() title:string;
   @Input() message:string;
   @Input() error:boolean;
@@ -21,6 +22,6 @@ export class MessageDisplayComponent implements OnInit {
   }
 
   close(){
-    this._messages.removeMessage(this.title, this.message, false);
+    this._messages.removeMessage(this.id);
   }
 }
