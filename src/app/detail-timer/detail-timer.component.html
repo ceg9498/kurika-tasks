@@ -10,6 +10,11 @@
     <div *ngIf="!timer.description"><br/></div>
   </a>
   <button type="button" 
+    class="btn btn-outline-secondary" 
+    [routerLink]="['/timers/edit',timer.id]">
+    Edit
+  </button>
+  <button type="button" 
     class="btn btn-outline-danger" 
     (click)="deleteTimer(timer.id)">
     Delete
