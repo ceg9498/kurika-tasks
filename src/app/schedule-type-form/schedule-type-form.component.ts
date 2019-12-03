@@ -53,29 +53,31 @@ export class ScheduleTypeFormComponent implements OnInit {
   parsePeriod(){
     if(this.period){
       let split = this.period.split('-');
-      let result = {
-        // period strings are in 24h, use 'am'
-        ampm: 'am',
-        useUTC: split[1] === 'g' ? true : false,
-        // 2: year // unused
-        // 3: Months // unused
-        // 4: Day of Month // unused
-        // 5: Hours
-        hour: split[5],
-        // 6: Minutes
-        minute: split[6],
-        // 7: Days of Week
-        dayOfWeek: {
-          sunday: split[7].includes('0') ? true : false,
-          monday: split[7].includes('1') ? true : false,
-          tuesday: split[7].includes('2') ? true : false,
-          wednesday: split[7].includes('3') ? true : false,
-          thursday: split[7].includes('4') ? true : false,
-          friday: split[7].includes('5') ? true : false,
-          saturday: split[7].includes('6') ? true : false,
-        }
-      };
-      return result;
+      if(split[0] === 'r'){
+        let result = {
+          // period strings are in 24h, use 'am'
+          ampm: 'am',
+          useUTC: split[1] === 'g' ? true : false,
+          // 2: year // unused
+          // 3: Months // unused
+          // 4: Day of Month // unused
+          // 5: Hours
+          hour: split[5],
+          // 6: Minutes
+          minute: split[6],
+          // 7: Days of Week
+          dayOfWeek: {
+            sunday: split[7].includes('0') ? true : false,
+            monday: split[7].includes('1') ? true : false,
+            tuesday: split[7].includes('2') ? true : false,
+            wednesday: split[7].includes('3') ? true : false,
+            thursday: split[7].includes('4') ? true : false,
+            friday: split[7].includes('5') ? true : false,
+            saturday: split[7].includes('6') ? true : false,
+          }
+        };
+        return result;
+      }
     }
     return {
       useUTC: true,
