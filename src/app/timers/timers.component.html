@@ -43,7 +43,9 @@
         </button>
       </div>
       <div class="modal-body">
-        {{ dialogData.description }}
+        <span *ngIf="dialogData.isCompleted">Next reset is at: {{ dialogData.resetTime.toLocaleString() }}</span>
+        <p *ngIf="dialogData.description">{{ dialogData.description }}</p>
+        <p *ngIf="!dialogData.description">No description available.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-danger" (click)="deleteTimer(dialogData.id)">Delete</button>
