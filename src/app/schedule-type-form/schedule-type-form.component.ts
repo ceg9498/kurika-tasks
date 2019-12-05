@@ -62,7 +62,7 @@ export class ScheduleTypeFormComponent implements OnInit {
           // 3: Months // unused
           // 4: Day of Month // unused
           // 5: Hours
-          hour: split[5],
+          hour: split[1] === 'g' ? parseInt(split[5])-(new Date()).getTimezoneOffset()/60 : split[5],
           // 6: Minutes
           minute: split[6],
           // 7: Days of Week
