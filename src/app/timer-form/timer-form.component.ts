@@ -16,7 +16,6 @@ export class TimerFormComponent implements OnInit {
   @Input() timer:Timer = null;
   isNew:boolean;
   timerForm:FormGroup;
-  period:string;
   countdownValues:interval;
   scheduleValues:schedule;
 
@@ -38,83 +37,93 @@ export class TimerFormComponent implements OnInit {
     } else {
       this.isNew = false;
     }
-    let repeatType:string;
-    switch(this.timer.period[0]){
-      case 'n':
-        repeatType = 'noRepeat';
-        break;
-      case 'r':
-        repeatType = 'scheduleRepeat';
-        break;
-      case 'i':
-        repeatType = 'cdRepeat';
-        break;
-    }
+    this.createFormGroup();
+  
+    this.countdownValues = new Interval();
+    this.scheduleValues = new Schedule();
+  }
+
+  createFormGroup(){
+    let repeatTypeMap = new Map([
+      ['n', 'noRepeat'],
+      ['r', 'scheduleRepeat'],
+      ['i', 'cdRepeat']
+    ]);
     this.timerForm = new FormGroup({
       title: new FormControl(this.timer.title || ''),
       category: new FormControl(this.timer.category || ''),
       description: new FormControl(this.timer.description || ''),
       required: new FormControl(this.timer.required || false),
       isCompleted: new FormControl(this.timer.isCompleted || false),
-      repeatType: new FormControl(repeatType)
+      repeatType: new FormControl(repeatTypeMap.get(this.timer.period[0]))
     });
-    this.period = this.timer.period || 'nr';
-  
-    this.countdownValues = new Interval();
-    this.scheduleValues = new Schedule();
   }
 
   setPeriod(){
-    switch(this.timerForm.value.repeatType){
-      case 'noRepeat':
-        this.period = 'nr';
-        break;
-      case 'cdRepeat':
-        this.period = 'i-';
-        this.period += this.countdownValues.amount + '-' + this.countdownValues.unit;
-        break;
-      case 'scheduleRepeat':
-        let useUTC = this.scheduleValues.useUTC;
-        this.period = 'r-';
-        this.period += useUTC ? 'g' : 'l';
-        this.period += '-' + "yyyy-mm-dd-"
+    let setPeriodMap = new Map([
+      ['noRepeat', ()=>{
+        return 'nr';
+      }],
+      ['cdRepeat', ()=>{
+        return 'i-' + this.countdownValues.amount + '-' + this.countdownValues.unit;
+      }],
+      ['scheduleRepeat', ()=>this.setScheduleRepeat()]
+    ]);
+    return setPeriodMap.get(this.timerForm.value.repeatType)();
+  }
 
-        // validate/format hours & minutes
-        let hours:number;
-        if(typeof this.scheduleValues.hour === "string"){
-          hours = parseInt(this.scheduleValues.hour);
-        } else {
-          hours = this.scheduleValues.hour;
-        }
-        if(this.scheduleValues.ampm === "pm"){
-          hours += 12;
-        }
-        let minutes:number;
-        if(typeof this.scheduleValues.minute === "string"){
-          if(this.scheduleValues.minute === ''){
-            minutes = 0;
-          } else {
-            minutes = parseInt(this.scheduleValues.minute);
-          }
-        } else {
-          minutes = this.scheduleValues.minute;
-        }
+  setScheduleRepeat(){
+    let useUTC = this.scheduleValues.useUTC;
+    let period = 'r-';
+    period += useUTC ? 'g' : 'l';
+    period += '-' + "yyyy-mm-dd-"
 
-        if(useUTC){
-          let offsetTotal = (new Date()).getTimezoneOffset();
-          let offsetHours = Math.floor(offsetTotal/60);
-          let offsetMinutes = offsetTotal-(offsetHours*60);
-          this.period += (hours+offsetHours) + '-';
-          this.period += (minutes+offsetMinutes) + '-';
-        } else {
-          // local time
-          this.period += hours + '-';
-          this.period += minutes + '-';
-        }
+    // validate/format hours & minutes
+    let hours = this.validateHours();
+    let minutes = this.validateMinutes();
 
-        this.period += this.scheduleValues.dayOfWeek;
-        break;
+    if(useUTC){
+      period += this.offsetAdjustment(hours, minutes);
+    } else {
+      // local time
+      period += hours + '-' + minutes + '-';
     }
+
+    period += this.scheduleValues.dayOfWeek;
+    
+    return period;
+  }
+
+  validateHours(){
+    let hours:number;
+    if(typeof this.scheduleValues.hour === "string"){
+      hours = parseInt(this.scheduleValues.hour);
+    } else {
+      hours = this.scheduleValues.hour;
+    }
+    if(this.scheduleValues.ampm === "pm"){
+      hours += 12;
+    }
+    return hours;
+  }
+  validateMinutes(){
+    let minutes:number;
+    if(typeof this.scheduleValues.minute === "string"){
+      if(this.scheduleValues.minute === ''){
+        minutes = 0;
+      } else {
+        minutes = parseInt(this.scheduleValues.minute);
+      }
+    } else {
+      minutes = this.scheduleValues.minute;
+    }
+    return minutes;
+  }
+  offsetAdjustment(hours:number, minutes:number){
+    let offsetTotal = (new Date()).getTimezoneOffset();
+    let offsetHours = Math.floor(offsetTotal/60);
+    let offsetMinutes = offsetTotal-(offsetHours*60);
+    return (hours+offsetHours) + '-' + (minutes+offsetMinutes) + '-';
   }
 
   setIntervalPeriod(event:{property:string, value:string|number}){
@@ -126,15 +135,13 @@ export class TimerFormComponent implements OnInit {
   }
 
   add(){
-    this.setPeriod();
-    
     let { title, required, isCompleted, description, category } = this.timerForm.value;
     if(this.isNew){
       this._timerService.addTimer({
         title: title, 
         required: required, 
         isCompleted: isCompleted || false, 
-        period: this.period, 
+        period: this.setPeriod(), 
         description: description, 
         category: category,
         completed: []
@@ -145,7 +152,7 @@ export class TimerFormComponent implements OnInit {
         title: title, 
         required: required, 
         isCompleted: isCompleted || false, 
-        period: this.period, 
+        period: this.setPeriod(), 
         description: description, 
         category: category,
         completed: []

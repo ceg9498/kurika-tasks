@@ -79,11 +79,11 @@
   </div>
 
   <div *ngIf="timerForm.value.repeatType === 'cdRepeat'" class="mb-3">
-    <app-countdown-type-form [period]="period" (timerData)="setIntervalPeriod($event)"></app-countdown-type-form>
+    <app-countdown-type-form [period]="timer.period" (timerData)="setIntervalPeriod($event)"></app-countdown-type-form>
   </div>
 
   <div *ngIf="timerForm.value.repeatType === 'scheduleRepeat'" class="mb-3">
-    <app-schedule-type-form [period]="period" (timerData)="setSchedulePeriod($event)"></app-schedule-type-form>
+    <app-schedule-type-form [period]="timer.period" (timerData)="setSchedulePeriod($event)"></app-schedule-type-form>
   </div>
 
   <button type="submit" class="btn bg-brand-primary text-brand-accent">
