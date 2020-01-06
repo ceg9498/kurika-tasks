@@ -8,8 +8,6 @@ import { TimersService } from './timers.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Kurika Tasks';
-
   constructor(private _timers:TimersService){}
 
   ngOnInit(){
