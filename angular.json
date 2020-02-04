@@ -17,9 +17,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/kurika-tasks",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "baseHref": "/kurika-tasks/",
+            "deployUrl": "/kurika-tasks/",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": false,
