@@ -1,6 +1,6 @@
 <div class="content card-columns">
   <ng-container *ngFor="let category of timers">
-    <ng-container *ngIf="!isAllComplete(category.category) && settings.hideCompleted.value">
+    <ng-container *ngIf="showCategory(category.category)">
       <div class="card" style="width: 300px;">
         <div class="card-header">
           {{ category.category }}

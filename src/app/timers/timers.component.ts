@@ -32,15 +32,15 @@ export class TimersComponent implements OnInit {
     this.timers = this._timers.getTimers(this.restrictions);
   }
 
-  isAllComplete(category:string){
+  showCategory(category:string){
+    if(this.settings.hideCompleted.value === false) return true;
     let res:boolean = true;
-    this.timers.forEach((item)=>{
-      if(item.category === category){
-        item.timers.forEach((timer)=>{
-          if(!timer.isCompleted){
-            res = false;
-          }
-        });
+    let categoryIndex = this.timers.findIndex((categories)=>categories.category === category);
+
+    this.timers[categoryIndex].timers.forEach((timer)=>{
+      if(timer.isCompleted){
+        res = false;
+      } else {
       }
     });
     return res;
