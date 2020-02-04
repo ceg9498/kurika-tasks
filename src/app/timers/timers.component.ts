@@ -34,13 +34,12 @@ export class TimersComponent implements OnInit {
 
   showCategory(category:string){
     if(this.settings.hideCompleted.value === false) return true;
-    let res:boolean = true;
+    let res:boolean = false;
     let categoryIndex = this.timers.findIndex((categories)=>categories.category === category);
 
     this.timers[categoryIndex].timers.forEach((timer)=>{
-      if(timer.isCompleted){
-        res = false;
-      } else {
+      if(!timer.isCompleted){
+        res = true;
       }
     });
     return res;
