@@ -25,7 +25,7 @@ export class SlimTimerComponent implements OnInit {
     this.info.emit(this.timer.id);
   }
 
-  toggleCompleted(id:string){
+  toggleCompleted(id:string|number){
     this._timers.toggleCompleted(id);
   }
 }

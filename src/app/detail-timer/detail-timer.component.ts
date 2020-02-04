@@ -19,11 +19,11 @@ export class DetailTimerComponent implements OnInit {
   ngOnInit() {
   }
 
-  toggleCompleted(id:string){
+  toggleCompleted(id:string|number){
     this._timers.toggleCompleted(id);
   }
 
-  deleteTimer(id:string){
+  deleteTimer(id:string|number){
     this._timers.deleteTimer(id);
   }
 }

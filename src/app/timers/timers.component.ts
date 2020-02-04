@@ -13,7 +13,7 @@ import { SettingsService } from '../settings.service';
 export class TimersComponent implements OnInit {
   @Input() restrictions:string[];
   timers:[{category:string, timers:Timer[]}];
-  settings:{};
+  settings:any;
   deleteIcon:any;
   dialogIsOpen:boolean = false;
   dialogData:Timer = null;
@@ -32,7 +32,7 @@ export class TimersComponent implements OnInit {
     this.timers = this._timers.getTimers(this.restrictions);
   }
 
-  deleteTimer(id:string){
+  deleteTimer(id:string|number){
     this._timers.deleteTimer(id);
     if(this.dialogIsOpen && this.dialogData.id === id){
       this.closeDialog();

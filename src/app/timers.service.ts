@@ -127,7 +127,7 @@ export class TimersService implements OnDestroy {
     );
   }
 
-  deleteTimer(id:string){
+  deleteTimer(id:string|number){
     this.categories.forEach((item, i)=>{
       item.timers.forEach((timer, j)=>{
         if(timer.id === id){
@@ -161,7 +161,7 @@ export class TimersService implements OnDestroy {
     return this._idb.getById("kurika", "timers", id);
   }
 
-  toggleCompleted(id:string){
+  toggleCompleted(id:string|number){
     this.categories.forEach((item, i)=>{
       item.timers.forEach((timer, j)=>{
         if(timer.id === id){

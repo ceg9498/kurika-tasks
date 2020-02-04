@@ -183,7 +183,7 @@ export class IndexedDbService {
     });
   }
 
-  deleteOne(dbName:string, storeName:string, id:string):Observable<any> {
+  deleteOne(dbName:string, storeName:string, id:string|number):Observable<any> {
     return new Observable((observer)=>{
 
       let request = window.indexedDB.open(dbName, DB_VER);
