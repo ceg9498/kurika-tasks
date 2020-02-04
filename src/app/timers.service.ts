@@ -80,7 +80,7 @@ export class TimersService implements OnDestroy {
           timers: [n]
         });
       } else {
-        this.categories[i].timers.push(n);
+        this.dashCategories[i].timers.push(n);
       }
     }
   }
