@@ -32,6 +32,20 @@ export class TimersComponent implements OnInit {
     this.timers = this._timers.getTimers(this.restrictions);
   }
 
+  isAllComplete(category:string){
+    let res:boolean = true;
+    this.timers.forEach((item)=>{
+      if(item.category === category){
+        item.timers.forEach((timer)=>{
+          if(!timer.isCompleted){
+            res = false;
+          }
+        });
+      }
+    });
+    return res;
+  }
+
   deleteTimer(id:string|number){
     this._timers.deleteTimer(id);
     if(this.dialogIsOpen && this.dialogData.id === id){
