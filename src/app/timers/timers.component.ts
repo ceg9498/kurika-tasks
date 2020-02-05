@@ -57,7 +57,6 @@ export class TimersComponent implements OnInit {
   }
 
   openDialog(id:string){
-    console.log("Open dialog for ID:",id);
     this.dialogIsOpen = true;
     for(let inTimers of this.timers){
       for(let timer of inTimers.timers){
